@@ -108,7 +108,7 @@ KeyError: 'this'
 
 Here is the batch code:
 from torch.utils.data import TensorDataset, DataLoader
-
+import torch
 
 def batch_data(words, sequence_length, batch_size):
     """
@@ -121,10 +121,10 @@ def batch_data(words, sequence_length, batch_size):
     # TODO: Implement function
     n_batches = int(len(words)/(batch_size * sequence_length))
     xdata = np.array(words[: n_batches * batch_size * sequence_length])
-    ydata = np.array(words[1: n_batches * batch_size * sequence_length + 1])
-
-    x_batches = np.split(xdata.reshape(batch_size, -1), n_batches, 1)
-    y_batches = np.split(ydata.reshape(batch_size, -1), n_batches, 1)
+    ydata = np.array(words[:batch_size ])
+    
+    x_batches = np.array(np.split(xdata.reshape(-1,batch_size),n_batches))
+    y_batches = np.array(np.split(ydata.reshape(batch_size),n_batches))
     
     x_data = TensorDataset(torch.from_numpy(x_batches), torch.from_numpy(y_batches))
     data = DataLoader(x_data, shuffle=True, batch_size=batch_size)
@@ -133,4 +133,3 @@ def batch_data(words, sequence_length, batch_size):
 
 # there is no test for this function, but you are encouraged to create
 # print statements and tests of your own
-
