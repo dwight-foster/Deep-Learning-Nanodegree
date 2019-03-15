@@ -101,3 +101,36 @@ KeyError                                  Traceback (most recent call last)
      39 
 
 KeyError: 'this'
+
+
+
+
+
+Here is the batch code:
+from torch.utils.data import TensorDataset, DataLoader
+
+
+def batch_data(words, sequence_length, batch_size):
+    """
+    Batch the neural network data using DataLoader
+    :param words: The word ids of the TV scripts
+    :param sequence_length: The sequence length of each batch
+    :param batch_size: The size of each batch; the number of sequences in a batch
+    :return: DataLoader with batched data
+    """
+    # TODO: Implement function
+    n_batches = int(len(words)/(batch_size * sequence_length))
+    xdata = np.array(words[: n_batches * batch_size * sequence_length])
+    ydata = np.array(words[1: n_batches * batch_size * sequence_length + 1])
+
+    x_batches = np.split(xdata.reshape(batch_size, -1), n_batches, 1)
+    y_batches = np.split(ydata.reshape(batch_size, -1), n_batches, 1)
+    
+    x_data = TensorDataset(torch.from_numpy(x_batches), torch.from_numpy(y_batches))
+    data = DataLoader(x_data, shuffle=True, batch_size=batch_size)
+        # return a dataloader
+    return data
+
+# there is no test for this function, but you are encouraged to create
+# print statements and tests of your own
+
