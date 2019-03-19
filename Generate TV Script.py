@@ -36,7 +36,7 @@ def create_lookup_tables(text):
     :return: A tuple of dicts (vocab_to_int, int_to_vocab)
     """
     # TODO: Implement Function
-    counts = Counter(lines)
+    counts = Counter(text)
     vocab = sorted(counts, key=counts.get, reverse=True)
     int_to_vocab = {ii: word for ii, word in enumerate(vocab)}
     vocab_to_int = {word: ii for ii, word in int_to_vocab.items()}
@@ -74,34 +74,6 @@ DON'T MODIFY ANYTHING IN THIS CELL
 """
 # pre-process training data
 helper.preprocess_and_save_data(data_dir, token_lookup, create_lookup_tables)
-
-
-
-
-
-Here is the full error:
-KeyError                                  Traceback (most recent call last)
-<ipython-input-16-400f71299159> in <module>()
-      3 """
-      4 # pre-process training data
-----> 5 helper.preprocess_and_save_data(data_dir, token_lookup, create_lookup_tables)
-
-/home/workspace/helper.py in preprocess_and_save_data(dataset_path, token_lookup, create_lookup_tables)
-     35 
-     36     vocab_to_int, int_to_vocab = create_lookup_tables(text + list(SPECIAL_WORDS.values()))
----> 37     int_text = [vocab_to_int[word] for word in text]
-     38     pickle.dump((int_text, vocab_to_int, int_to_vocab, token_dict), open('preprocess.p', 'wb'))
-     39 
-
-/home/workspace/helper.py in <listcomp>(.0)
-     35 
-     36     vocab_to_int, int_to_vocab = create_lookup_tables(text + list(SPECIAL_WORDS.values()))
----> 37     int_text = [vocab_to_int[word] for word in text]
-     38     pickle.dump((int_text, vocab_to_int, int_to_vocab, token_dict), open('preprocess.p', 'wb'))
-     39 
-
-KeyError: 'this'
-
 
 
 
